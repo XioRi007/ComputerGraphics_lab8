@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+    <head> 
+         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+         <title>Лабораторна робота № 8 </title>
+	     <script src="./js/three.js"></script>
+		 <script src="./js/TrackballControls.js"></script>		
+	</head>
+	<body>
+        
+		<script>
+
+		
+		init();
+	
+			function init()
+			{
+				
+				// створюємо рендер і задаємо розмір
+				var renderer = window.WebGLRenderingContext ? new THREE.WebGLRenderer({antialias:true}) : new THREE.CanvasRenderer();
+				renderer.setClearColor(new THREE.Color(0xffffff));
+                renderer.setSize( window.innerWidth, window.innerHeight );
+				// додаємо вивід візуалізатора до html-елементу
+				document.body.appendChild( renderer.domElement );
+				// створюємо камеру
+				var camera = new THREE.PerspectiveCamera(45,window.innerWidth / window.innerHeight, 0.1,1000);
+				// створюємо сцену, яка буде містити всі наші елементи, такі як об'єкти, камери і джерела світла
+				var scene = new THREE.Scene();
+			
+				var controls = new THREE.TrackballControls( camera );
+            	camera.position.z = 500;
+				camera.position.y = 400;
+				scene.add(camera);				
+			
+				var ambientLight = new THREE.AmbientLight(0xffffff);
+				scene.add(ambientLight);
+
+				var light = new THREE.DirectionalLight();
+				light.position.set(0, 30, 20);
+				scene.add(light);
+
+
+				//задание 1
+				cone = makeCone(200, 100, 0, new THREE.MeshPhongMaterial( { color: 0x00ff00 } ));
+				scene.add(cone);
+				var clock = new THREE.Clock( ); 
+				var period = 1; 
+				clock.start();
+
+				
+				var snowman = new THREE.Object3D();
+				//низ снеговика
+				var material = new THREE.MeshBasicMaterial({color: 0xe3f5fa});
+				var geometry = new THREE.SphereGeometry(70, 36, 36);
+				var sphere1 = new THREE.Mesh(geometry, material);
+				sphere1.position.set(0, -50, 0);
+				snowman.add(sphere1);
+
+				//шар посередине
+				material = new THREE.MeshBasicMaterial({color: 0xe3f5fa});
+				geometry = new THREE.SphereGeometry(50, 36, 36);
+				var sphere2 = new THREE.Mesh(geometry, material);
+				sphere2.position.set(0, 70, 0);
+				snowman.add(sphere2);
+
+				//голова
+				material = new THREE.MeshBasicMaterial({color: 0xe3f5fa});
+				geometry = new THREE.SphereGeometry(30, 36, 36);
+				var sphere3 = new THREE.Mesh(geometry, material);
+				sphere3.position.set(0, 145, 0);
+				snowman.add(sphere3);
+				
+
+				//правый глаз
+				material = new THREE.MeshBasicMaterial({color: 0x000});
+				geometry = new THREE.SphereGeometry(2, 36, 36);
+				var sphere4 = new THREE.Mesh(geometry, material);
+				sphere4.position.set(10, 145, 28);
+				snowman.add(sphere4);
+
+				//левый глаз
+				material = new THREE.MeshBasicMaterial({color: 0x000});
+				geometry = new THREE.SphereGeometry(2, 36, 36);
+				var sphere4 = new THREE.Mesh(geometry, material);
+				sphere4.position.set(-10, 145, 28);
+				snowman.add(sphere4);
+
+				//рот1
+				material = new THREE.MeshBasicMaterial({color: 0x000});
+				geometry = new THREE.SphereGeometry(1, 36, 36);
+				var sphere5 = new THREE.Mesh(geometry, material);
+				sphere5.position.set(-10, 132, 26);
+				snowman.add(sphere5);
+
+				//рот2
+				material = new THREE.MeshBasicMaterial({color: 0x000});
+				geometry = new THREE.SphereGeometry(1, 36, 36);
+				var sphere6 = new THREE.Mesh(geometry, material);
+				sphere6.position.set(-7, 130, 26);
+				snowman.add(sphere6);
+
+				//рот3
+				material = new THREE.MeshBasicMaterial({color: 0x000});
+				geometry = new THREE.SphereGeometry(1, 36, 36);
+				var sphere7 = new THREE.Mesh(geometry, material);
+				sphere7.position.set(-4, 129, 26);
+				snowman.add(sphere7);
+
+				//рот4
+				material = new THREE.MeshBasicMaterial({color: 0x000});
+				geometry = new THREE.SphereGeometry(1, 36, 36);
+				var sphere8 = new THREE.Mesh(geometry, material);
+				sphere8.position.set(-0.9, 128.5, 26);
+				snowman.add(sphere8);
+
+				//симетрично по х
+
+				//рот4
+				material = new THREE.MeshBasicMaterial({color: 0x000});
+				geometry = new THREE.SphereGeometry(1, 36, 36);
+				var sphere8 = new THREE.Mesh(geometry, material);
+				sphere8.position.set(0.9, 128.5, 26);
+				snowman.add(sphere8);
+
+				//рот3
+				material = new THREE.MeshBasicMaterial({color: 0x000});
+				geometry = new THREE.SphereGeometry(1, 36, 36);
+				var sphere9 = new THREE.Mesh(geometry, material);
+				sphere9.position.set(4, 129, 26);
+				snowman.add(sphere9);
+
+				//рот2
+				material = new THREE.MeshBasicMaterial({color: 0x000});
+				geometry = new THREE.SphereGeometry(1, 36, 36);
+				var sphere10 = new THREE.Mesh(geometry, material);
+				sphere10.position.set(7, 130, 26);
+				snowman.add(sphere10);
+
+				//рот1
+				material = new THREE.MeshBasicMaterial({color: 0x000});
+				geometry = new THREE.SphereGeometry(1, 36, 36);
+				var sphere11 = new THREE.Mesh(geometry, material);
+				sphere11.position.set(10, 132, 26);
+				snowman.add(sphere11);
+
+				//нос
+
+				geometry = new THREE.ConeGeometry( 5, 20, 64 );
+				var nose = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial({color: 0xff0000}) );
+				nose.position.set(0,137, 37);
+				nose.rotation.x=0.5*Math.PI;
+				snowman.add(nose);
+
+				//правая рука
+
+				geometry = new THREE.CylinderGeometry( 1, 1, 100, 32 );
+				material = new THREE.MeshBasicMaterial( {color: 0x000} );
+				const  hand1 = new THREE.Mesh( geometry, material );
+				hand1.position.set(-70,55, 0);
+				hand1.rotation.z=0.8*Math.PI;
+				snowman.add( hand1 )
+
+				//правая рука
+
+				geometry = new THREE.CylinderGeometry( 1, 1, 100, 32 );
+				material = new THREE.MeshBasicMaterial( {color: 0x000} );
+				const  hand2 = new THREE.Mesh( geometry, material );
+				hand2.position.set(70,55, 0);
+				hand2.rotation.z=0.2*Math.PI;
+				snowman.add( hand2 )
+
+				//шапка
+				geometry = new THREE.ConeGeometry( 40, 50, 64 );
+				var hat = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial({color: 0xff0000}) );
+				hat.position.set(0,180, 0);
+				// hat.rotation.x=0.5*Math.PI;
+				snowman.add(hat);
+
+				//помпончик
+				geometry = new THREE.SphereGeometry(10, 36, 36);
+				var hat1 = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial({color: 0xe3f5fa}) );
+				hat1.position.set(0,200, 0);
+				// hat.rotation.x=0.5*Math.PI;
+				snowman.add(hat1);
+
+				//пуговица
+				geometry = new THREE.SphereGeometry(10, 36, 36);
+				var btn = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial({color: 0x000}) );
+				btn.position.set(0,100, 35);
+				snowman.add(btn);
+
+				//пуговица 2
+				geometry = new THREE.SphereGeometry(10, 36, 50);
+				var btn1 = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial({color: 0x000}) );
+				btn1.position.set(0,80, 45);
+				snowman.add(btn1);
+
+				//пуговица 3
+				geometry = new THREE.SphereGeometry(10, 36, 36);
+				var btn2 = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial({color: 0x000}) );
+				btn2.position.set(0,60, 45);
+				snowman.add(btn2);
+
+				snowman.rotation.x+=-0.4;
+
+
+				scene.add(snowman);
+				camera.lookAt(snowman.position);
+
+				
+			
+	 			renderScene();
+
+		function renderScene() 
+			{ 		   			
+			cone.rotation.x += 0.02;      
+			cone.rotation.y += 0.02;
+			cone.rotation.z += 0.02;
+
+			snowman.rotation.x += 0.02;  
+			snowman.rotation.y += 0.02;
+            snowman.rotation.z += 0.02;
+			if ( clock.running ) 
+					{ 
+						var time = clock.getElapsedTime(); 
+							if ( time > period ) 
+								{ 
+									cone.material.color.setHex( Math.random() * 0xffffff ); 
+										clock.elapsedTime = 0;// обнуляем счетчик таймера
+								} 
+					} 
+							
+	        requestAnimationFrame( renderScene );
+			controls.update();
+ 			renderer.render( scene, camera );
+			}	
+		};
+
+		function makeCone(x, y, z, material){
+			const geometry = new THREE.ConeGeometry( 50, 100, 4 );
+			const cone = new THREE.Mesh( geometry, material );
+
+			cone.position.x = x;
+			cone.position.y = y;
+			cone.position.z = z;
+			cone.castShadow = cone.receiveShadow = true;
+		
+			return cone;
+		}
+
+
+		</script>
+	</body>
+</html>
